@@ -61,6 +61,9 @@ pub struct Arg<'n, 'l, 'h, 'g, 'p, 'r> {
     /// Determines if this argument is an option (as opposed to flag or positional) and
     /// is mutually exclusive with `index` and `multiple`
     pub takes_value: bool,
+    /// Determines if the argument is expecting a list of values. For example, input like
+    /// `--input a b c d`, or `--input a,b,c,d`, or `--input=a,b,c,d` or `-ia,b,c,d`.
+    pub takes_list: bool,
     /// The index of the argument. `index` is mutually exclusive with `takes_value`
     /// and `multiple`
     pub index: Option<u8>,
@@ -628,6 +631,12 @@ impl<'n, 'l, 'h, 'g, 'p, 'r> Arg<'n, 'l, 'h, 'g, 'p, 'r> {
         self
     }
 
+    /// TODO
+    pub fn takes_list(mut self, tl: bool) -> Self {
+        self.takes_list = tl;
+        self
+    }
+
     /// Specifies the index of a positional argument starting at 1.
     ///
     /// **NOTE:** When setting this,  any `short` or `long` values you set
@@ -999,6 +1008,7 @@ impl<'n, 'l, 'h, 'g, 'p, 'r, 'z> From<&'z Arg<'n, 'l, 'h, 'g, 'p, 'r>>
             help: a.help,
             required: a.required,
             takes_value: a.takes_value,
+            takes_list: a.takes_list,
             multiple: a.multiple,
             index: a.index,
             possible_vals: a.possible_vals.clone(),
