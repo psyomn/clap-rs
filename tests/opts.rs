@@ -68,3 +68,16 @@ fn opts_using_mixed() {
     assert!(m.is_present("color"));
     assert_eq!(m.value_of("color").unwrap(), "other");
 }
+
+#[test]
+fn opts_using_lists() {
+    let m = App::new("opts")
+        .arg(Arg::with_name("list")
+             .short("l")
+             .long("list")
+             .help("input a list of things")
+             .takes_list(true))
+        .get_matches();
+    // Setting this to false until I have something substantial...
+    assert!(false);
+}
